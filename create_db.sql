@@ -1,8 +1,11 @@
-CREATE DATABASE myBookshop;
-USE myBookshop;
-CREATE TABLE books (id INT AUTO_INCREMENT,name VARCHAR(50),price DECIMAL(5, 2) unsigned,PRIMARY KEY(id));
-INSERT INTO books (name, price)VALUES('database book', 40.25),('Node.js book', 25.00), ('Express book', 31.99) ;
-CREATE USER 'appuser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'app2027';
-GRANT ALL PRIVILEGES ON myBookshop.* TO 'appuser'@'localhost';
+CREATE DATABASE rbord001_Bookshop;
+USE rbord001_Bookshop;
+CREATE TABLE books ( id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255), author VARCHAR(255), subject VARCHAR(50), price DECIMAL(5,2));
+INSERT INTO books (title, author, subject, price) VALUES ('The Hobbit', 'J.R.R. Tolkien', 'Fantasy', 7.99);
+INSERT INTO books (title, author, subject, price) VALUES ('Harry Potter and the Philosopher''s Stone', 'J.K. Rowling', 'Fantasy', 8.99);
+INSERT INTO books (title, author, subject, price) VALUES ('The Da Vinci Code', 'Dan Brown', 'Thriller', 9.99);
+INSERT INTO books (title, author, subject, price) VALUES ('The Alchemist', 'Paulo Coelho', 'Fantasy', 6.99);
+CREATE USER 'appuser'@'localhost' IDENTIFIED BY 'app2027';
+GRANT ALL PRIVILEGES ON rbord001_Bookshop.* TO 'appuser'@'localhost';
 CREATE TABLE user_details (username varchar(255),first_name varchar(255),last_name varchar(255),hashedPassword varchar(255),email varchar(255));
 ALTER TABLE user_details ADD id INT PRIMARY KEY AUTO_INCREMENT;
