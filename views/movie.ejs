@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to <%=shopData.shopName%></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css"  rel="stylesheet" />
+    <link rel="stylesheet"  type="text/css" href="/main.css" />
+    
+</head>
+<body class="flex flex-col min-h-screen">
+    <header>
+        <%- include('header') %> 
+    </header>
+    <main class="mt-4 px-5 mx-auto max-w-10xl">
+
+<!-- Search bar -->
+
+    <h1 class="text-center text-2xl font-bold mb-4">Which movie or show would you like to search for?</h1>
+    <div class="flex justify-center mt-8">
+        <input type="text" class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500" placeholder="Search..." id="searchInput" required>
+        <button class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md" onclick="searchMovies()">Search</button>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
+        <div class="bg-white p-8 rounded-md">
+            <h2 class="text-2xl mb-4">Search Results</h2>
+            <div id="searchResults" class="grid grid-cols-3 gap-4"></div>
+        </div>
+
+        <!-- Modal Close Button -->
+        <button id="modalCloseBtn" class="absolute top-0 right-0 mt-4 mr-4 px-2 py-1 bg-red-500 text-white rounded-md" onclick="closeModal()">Close</button>
+    </div>
+
+    
+    </div>
+        <!-- Movies -->
+        <h1 class="text-center text-2xl font-bold mb-4">Movies</h1>
+
+
+        <!-- Movie list -->
+        <div class="flex flex-wrap justify-center mt-8">
+            <% moviesAndShows.trendingMovies.forEach((movie) => { %>
+                <div class="flex flex-col items-center mr-8 mb-8">
+                    <a href="https://www.themoviedb.org/movie/<%= movie.id %>" target="_blank">
+                        <img src="https://image.tmdb.org/t/p/w500<%= movie.poster_path %>" alt="" class="w-64 h-96">
+                    </a>
+                    <p class="text-center mt-2"><%= movie.title %></p>
+                </div>
+            <% }) %>
+        </div>
+
+        <!-- Shows -->
+        <h1 class="text-center text-2xl font-bold mb-4">Shows</h1>
+
+        <!-- TV Show List-->
+        <div class="flex flex-wrap justify-center mt-8">
+            <% moviesAndShows.trendingShows.forEach((show) => { %>
+                <div class="flex flex-col items-center mr-8 mb-8">
+                    <a href="https://www.themoviedb.org/tv/<%= show.id %>" target="_blank">
+                        <img src="https://image.tmdb.org/t/p/w500<%= show.poster_path %>" alt="" class="w-64 h-96">
+                    </a>
+                    <p class="text-center mt-2"><%= show.name %></p>
+                </div>
+            <% }) %>
+
+        </div>
+        
+    </main>
+    <footer><%- include('footer', { class: 'mt-auto' }) %></footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+  <script>
+    function searchMovies() {
+        const query = document.getElementById('searchInput').value;
+        fetch(`/movie-search?q=${query}`)
+            .then(response => response.json())
+            .then(results => {
+                // Display the results in a modal
+                const modalContent = document.getElementById('searchResults');
+                modalContent.innerHTML = '';
+                results.forEach(result => {
+                    
+                    const resultElement = document.createElement('div');
+                    resultElement.classList.add('border', 'border-gray-300', 'rounded-md', 'p-4');
+                    
+                    const imageElement = document.createElement('img');
+                    imageElement.src = `https://image.tmdb.org/t/p/w500${result.poster_path}`;
+                    imageElement.alt = 'Movie Poster';
+                    imageElement.classList.add('w-64', 'h-96');
+                    resultElement.appendChild(imageElement);
+                    
+                    const titleElement = document.createElement('p');
+                    titleElement.textContent = result.title || result.name;
+                    resultElement.appendChild(titleElement);
+                    
+                    const yearElement = document.createElement('p');
+                    yearElement.textContent = `Year: ${result.release_date || result.first_air_date}`;
+                    resultElement.appendChild(yearElement);
+                    
+                    const linkElement = document.createElement('a');
+                    linkElement.href = `https://www.themoviedb.org/${result.media_type}/${result.id}`;
+                    linkElement.target = '_blank';
+                    linkElement.textContent = 'View on TMDB';
+                    resultElement.appendChild(linkElement);
+                    
+                    modalContent.appendChild(resultElement);
+                });
+                
+                // Open the modal
+                document.getElementById('modal').style.display = 'block';
+            })
+            .catch(error => console.error(error));
+    }
+
+    function closeModal() {
+        // Close the modal
+        document.getElementById('modal').style.display = 'none';
+    }
+    
+  </script>
+    
+</body>
+</html>

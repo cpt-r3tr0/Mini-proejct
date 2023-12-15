@@ -1,11 +1,35 @@
-<!doctype html>
-<html>
-  <head>
-    <title>About <%=shopName%></title>
-    <link rel="stylesheet"  type="text/css" href="/main.css" />
-  </head>
-  <body>
-    <h1>About <%=shopName%></h1>
-    <p>We sell all sorts of books and nothing else!</p>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to <%=shopName%></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css"  rel="stylesheet" />
+  <link rel="stylesheet"  type="text/css" href="/main.css" />
+  
+</head>
+<body class="flex flex-col min-h-screen">
+  <header>
+    <%- include('header') %> 
+  </header>
+
+  <main class="flex-grow">
+    <div class="px-5 mx-auto max-w-6xl">
+      <h1>
+        About the project.
+      </h1>
+
+      <p>
+        This project is a simple book store that uses the Open Library API to fetch books and display them on the page. 
+        The project is built using Node.js, Express, and EJS.
+      </p>
+
+    </div>
+  </main>
+  <footer>
+    <%- include('footer') %>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+</body>
 </html>
